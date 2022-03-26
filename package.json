@@ -8,6 +8,8 @@
     "dev": "vuepress dev src",
     "build": "vuepress build src"
   },
+  "repository": "git+https://github.com/hxh-ly/hxh-ly.github.io.git",
+  "homepage": "https://github.com/hxh-ly/hxh-ly.github.io#readme",
   "keywords": [],
   "author": "",
   "license": "ISC",
