@@ -1,0 +1,19 @@
+name: Build and Deploy
+on: [push] // 推送代码触发脚本
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: vuepress-deploy
+      uses: jenkey2011/vuepress-deploy@main
+      env:
+        ACCESS_TOKEN: ${{ secrets._TOKEN }} // github Token
+        TARGET_REPO: hxh-ly/hxh-ly.github.io  // 仓库
+
+        TARGET_BRANCH: gh-pages    // build 之后推到的分支名
+        BUILD_SCRIPT: yarn && yarn build
+        BUILD_DIR: src/.vuepress/dist/     //build 之后的目录
+        CNAME: www.ydlcq.cn
