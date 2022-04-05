@@ -1,0 +1,27 @@
+name: axu-blog actions
+
+# 触发条件：在 push 到 master 分支后
+on:
+  push:
+    branches:
+      - axu-blog
+# 任务
+jobs:
+  build-and-deploy:
+   # 服务器环境
+   runs-on: ubuntu-latest
+   steps:
+    #拉取代码
+    - name: Checkout
+      uses: actions/checkout@maxu-blog
+      with:
+        persist-credentials: false
+    # 部署Github Pages
+    - name: Deploy
+      uses: actions/checkout@maxu-blog 
+      with:
+        ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
+        REPOSITORY_NAME: hxh-ly/hxh-ly.github.io
+        BRANCH: axu-blog
+        FOLDER: /
+        
