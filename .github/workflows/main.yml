@@ -13,7 +13,7 @@ jobs:
    steps:
     #拉取代码
     - name: Checkout
-      uses: actions/checkout@maxu-blog
+      uses: actions/checkout@axu-blog
       with:
         persist-credentials: false
     # 部署Github Pages
