@@ -21,7 +21,7 @@ module.exports = {
         path: "/vuerouter/",   // 可选的, 应该是一个绝对路径
         collapsable: true, // 可选的, 是否可折叠，默认值是 true，为false时该分组将永远都是展开状态
         sidebarDepth: 2,   // 可选的, 默认值是 1
-        children: ["/vuerouter/intro/", "/vuerouter/detail/"] // 可选的，没有时将不会有折叠效果
+        children: ["/vuerouter/intro/", "/vuerouter/detail/","/vuerouter/install/"] // 可选的，没有时将不会有折叠效果
       },
       '/about',
       '/',
