@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>响应式布局的常用解决方案对比 | 阿栩阿栩的日记本</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    
+    <meta name="description" content="Just playing around">
+    
+    <link rel="preload" href="/assets/css/0.styles.e4d8b86b.css" as="style"><link rel="preload" href="/assets/js/app.911c490e.js" as="script"><link rel="preload" href="/assets/js/2.570561dd.js" as="script"><link rel="preload" href="/assets/js/16.8a1014ee.js" as="script"><link rel="prefetch" href="/assets/js/10.cc62d249.js"><link rel="prefetch" href="/assets/js/11.fc73ab7b.js"><link rel="prefetch" href="/assets/js/12.5b0bf58b.js"><link rel="prefetch" href="/assets/js/13.991a391c.js"><link rel="prefetch" href="/assets/js/14.555affc5.js"><link rel="prefetch" href="/assets/js/15.74f97050.js"><link rel="prefetch" href="/assets/js/17.8489d764.js"><link rel="prefetch" href="/assets/js/18.09002f24.js"><link rel="prefetch" href="/assets/js/19.23898317.js"><link rel="prefetch" href="/assets/js/20.d66b1e41.js"><link rel="prefetch" href="/assets/js/21.2a97b205.js"><link rel="prefetch" href="/assets/js/22.23793e6e.js"><link rel="prefetch" href="/assets/js/23.f6a0d951.js"><link rel="prefetch" href="/assets/js/24.2c57367e.js"><link rel="prefetch" href="/assets/js/25.e2a5d8be.js"><link rel="prefetch" href="/assets/js/26.c38a9084.js"><link rel="prefetch" href="/assets/js/27.ccd0c941.js"><link rel="prefetch" href="/assets/js/28.a8d9583e.js"><link rel="prefetch" href="/assets/js/29.990c541f.js"><link rel="prefetch" href="/assets/js/3.63f13205.js"><link rel="prefetch" href="/assets/js/30.71997992.js"><link rel="prefetch" href="/assets/js/31.50dde834.js"><link rel="prefetch" href="/assets/js/32.6a18934b.js"><link rel="prefetch" href="/assets/js/33.1fd28e87.js"><link rel="prefetch" href="/assets/js/34.5ef3ff75.js"><link rel="prefetch" href="/assets/js/35.84f4e5c6.js"><link rel="prefetch" href="/assets/js/36.8d84ab5e.js"><link rel="prefetch" href="/assets/js/37.26483797.js"><link rel="prefetch" href="/assets/js/38.24070232.js"><link rel="prefetch" href="/assets/js/39.49f30090.js"><link rel="prefetch" href="/assets/js/4.5a22df0b.js"><link rel="prefetch" href="/assets/js/40.f9baad45.js"><link rel="prefetch" href="/assets/js/41.fdb60b56.js"><link rel="prefetch" href="/assets/js/5.35f321f1.js"><link rel="prefetch" href="/assets/js/6.e0cb1ce8.js"><link rel="prefetch" href="/assets/js/7.c23ce467.js"><link rel="prefetch" href="/assets/js/8.711e37da.js"><link rel="prefetch" href="/assets/js/9.35f7cd50.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.e4d8b86b.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/assets/img/cattt.png" alt="阿栩阿栩的日记本" class="logo"> <span class="site-name can-hide">阿栩阿栩的日记本</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="html" class="dropdown-title"><span class="title">html</span> <span class="arrow down"></span></button> <button type="button" aria-label="html" class="mobile-dropdown-title"><span class="title">html</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/language/chinese/" class="nav-link">
+  Chinese
+</a></li><li class="dropdown-item"><!----> <a href="/language/japanese/" class="nav-link">
+  Japanese
+</a></li></ul></div></div><div class="nav-item"><a href="/css/" class="nav-link router-link-active">
+  css
+</a></div><div class="nav-item"><a href="/typescript/" class="nav-link">
+  typescript
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="js" class="dropdown-title"><span class="title">js</span> <span class="arrow down"></span></button> <button type="button" aria-label="js" class="mobile-dropdown-title"><span class="title">js</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          es6
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  继承
+</a></li><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  扩展预算
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="vue" class="dropdown-title"><span class="title">vue</span> <span class="arrow down"></span></button> <button type="button" aria-label="vue" class="mobile-dropdown-title"><span class="title">vue</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          vue2
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/css/viewport/.html" class="nav-link">
+  diff
+</a></li></ul></li><li class="dropdown-item"><h4>
+          vue3
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vue/vue3/diff/" class="nav-link">
+  diff
+</a></li><li class="dropdown-subitem"><a href="/vue/vue3/reactive/" class="nav-link">
+  响应式原理
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/react/" class="nav-link">
+  react
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link">
+  webpack
+</a></div><div class="nav-item"><a href="/node/" class="nav-link">
+  node
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="html" class="dropdown-title"><span class="title">html</span> <span class="arrow down"></span></button> <button type="button" aria-label="html" class="mobile-dropdown-title"><span class="title">html</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/language/chinese/" class="nav-link">
+  Chinese
+</a></li><li class="dropdown-item"><!----> <a href="/language/japanese/" class="nav-link">
+  Japanese
+</a></li></ul></div></div><div class="nav-item"><a href="/css/" class="nav-link router-link-active">
+  css
+</a></div><div class="nav-item"><a href="/typescript/" class="nav-link">
+  typescript
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="js" class="dropdown-title"><span class="title">js</span> <span class="arrow down"></span></button> <button type="button" aria-label="js" class="mobile-dropdown-title"><span class="title">js</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          es6
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  继承
+</a></li><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  扩展预算
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="vue" class="dropdown-title"><span class="title">vue</span> <span class="arrow down"></span></button> <button type="button" aria-label="vue" class="mobile-dropdown-title"><span class="title">vue</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          vue2
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/css/viewport/.html" class="nav-link">
+  diff
+</a></li></ul></li><li class="dropdown-item"><h4>
+          vue3
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vue/vue3/diff/" class="nav-link">
+  diff
+</a></li><li class="dropdown-subitem"><a href="/vue/vue3/reactive/" class="nav-link">
+  响应式原理
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/react/" class="nav-link">
+  react
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link">
+  webpack
+</a></div><div class="nav-item"><a href="/node/" class="nav-link">
+  node
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><a href="/css/" class="sidebar-heading clickable router-link-active open"><span>CSS</span> <span class="arrow down"></span></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/css/" aria-current="page" class="sidebar-link">Css知识</a></li><li><a href="/css/viewport/" aria-current="page" class="active sidebar-link">响应式布局的常用解决方案对比</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/css/viewport/#_1-像素" class="sidebar-link">1. 像素</a></li><li class="sidebar-sub-header"><a href="/css/viewport/#_2-视口" class="sidebar-link">2. 视口</a></li><li class="sidebar-sub-header"><a href="/css/viewport/#_3-px-与自适应" class="sidebar-link">3.px 与自适应</a></li><li class="sidebar-sub-header"><a href="/css/viewport/#二、媒体查询" class="sidebar-link">二、媒体查询</a></li><li class="sidebar-sub-header"><a href="/css/viewport/#三、百分比" class="sidebar-link">三、百分比</a></li><li class="sidebar-sub-header"><a href="/css/viewport/#五、vh和vw" class="sidebar-link">五、vh和vw</a></li></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p>简要介绍: 介绍几种不同的自适应解决方案</p> <div class="language- extra-class"><pre class="language-text"><code># px 和 视口
+# 媒体查询
+# 百分比
+# 自适应场景下的rem解决方案
+# 通过vw/vh来实现自适应
+</code></pre></div><h1 id="一、px-和视口"><a href="#一、px-和视口" class="header-anchor">#</a> 一、px 和视口</h1> <h2 id="_1-像素"><a href="#_1-像素" class="header-anchor">#</a> 1. 像素</h2> <p>px 分为：</p> <ul><li>css 像素： js 中或者 css 中使用的是 css 像素</li> <li>物理像素 与设备或者硬件相关</li></ul> <h2 id="_2-视口"><a href="#_2-视口" class="header-anchor">#</a> 2. 视口</h2> <p>广义上是浏览器显示内容的屏幕区域。狭义上包括了布局视口 视觉视口 理想（布局）视口
+视口分类：</p> <ul><li>布局视口</li> <li>视觉视口</li> <li>理想（布局）视口</li></ul> <ol><li>布局视口 （layout viewport）
+定义 pc 在移动端的默认布局行为。 pc 的分辨率比较大，布局视口默认为 980px 也就是说在不设置网页的 viewPort 的情况下，pc 端的网页默认会以布局视口为基准，在移动端进行展示，因此可以看出明显的模糊。
+2）视觉视口 （visual viewport）
+视图视口表示浏览器内看到的网站的显示区域。用户可以通过缩放来查看网页的显示内容。视觉视口仅仅类似于放大镜中显示的内容。
+3） 理想视口 !!
+在移动端中就是指设备的分辨率。换句话说就是， 给定设备物理像素的情况下，最佳“布局视口”</li></ol> <p>DPR 的概念： device pixel ratio (物理像素比)</p> <div class="language- extra-class"><pre class="language-text"><code>DPR = 物理像素/分辨率
+越小越清晰
+</code></pre></div><p>在不缩放的情况下，一个 css 像素对应一个 dpr
+在移动端布局</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;meta name='viewport' content=&quot;width=device-width;initial-scale=1.0;maximum-scale=1;user-scalable=no;&quot; &gt;
+</code></pre></div><h2 id="_3-px-与自适应"><a href="#_3-px-与自适应" class="header-anchor">#</a> 3.px 与自适应</h2> <p>在 pc 的布局视口通常是 980px
+假设有一个 750 * 1134 设计搞</p> <div class="language- extra-class"><pre class="language-text"><code>//pc
+ css像素 =750/980=0.76
+</code></pre></div><div class="language- extra-class"><pre class="language-text"><code>//iphone6
+css像素 = 750/350 = 2
+</code></pre></div><p>对于不同分辨率的设备 计算出的 css 像素是不同的。仅用 px 无法通过一套样式，实现各端的自适应。</p> <h2 id="二、媒体查询"><a href="#二、媒体查询" class="header-anchor">#</a> 二、媒体查询</h2> <p>多套样式
+缺点：写多套样式太繁琐</p> <div class="language-css extra-class"><pre class="language-css"><code><span class="token atrule"><span class="token rule">@media</span> screen <span class="token keyword">and</span> <span class="token punctuation">(</span><span class="token property">max-width</span><span class="token punctuation">:</span> 960px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+  <span class="token selector">body:</span> <span class="token punctuation">{</span>
+    <span class="token property">bgc</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token atrule"><span class="token rule">@media</span> screen <span class="token keyword">and</span> <span class="token punctuation">(</span><span class="token property">max-width</span><span class="token punctuation">:</span> 750px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+  <span class="token selector">body:</span> <span class="token punctuation">{</span>
+    <span class="token property">bgc</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token atrule"><span class="token rule">@media</span> screen <span class="token keyword">and</span> <span class="token punctuation">(</span><span class="token property">max-width</span><span class="token punctuation">:</span> 320px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+  <span class="token selector">body:</span> <span class="token punctuation">{</span>
+    <span class="token property">bgc</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="三、百分比"><a href="#三、百分比" class="header-anchor">#</a> 三、百分比</h2> <p>1：css 中子元素% 到底是谁的 %?
+height、width 很直观是相对父元素。但是 margin、padding、border、border-radius、translate 呢?</p> <ol><li><p>子元素宽高%</p></li> <li><p>top left ... %
+top 相对父元素(不为 static)的 height
+left 相对父元素(不为 static)的 width</p></li></ol> <p>3)padding
+无论上下左右，相对于父元素的<code>width</code></p> <p>4)margin 同上</p> <p>5)border-radius
+相对自身<code>width</code></p> <p>2.百分比单位布局应用</p> <div class="language-css extra-class"><pre class="language-css"><code><span class="token selector">4:3 长方形
+.trangle</span> <span class="token punctuation">{</span>
+  <span class="token property">height</span><span class="token punctuation">:</span>0<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span>100%
+  <span class="token property">padding</span><span class="token punctuation">:</span>75%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>3.百分比单位缺点
+1） 计算复杂
+2） 根据父级别来写，复杂</p> <h1 id="四、自适应场景下-rem-解决方案"><a href="#四、自适应场景下-rem-解决方案" class="header-anchor">#</a> 四、自适应场景下 rem 解决方案</h1> <ol><li>rem 单位</li></ol> <div class="language- extra-class"><pre class="language-text"><code>1rem = 16px
+</code></pre></div><div class="language-css extra-class"><pre class="language-css"><code>为计算方便 <span class="token property">我们修改html的font-Size</span><span class="token punctuation">:</span>10px
+使得 1rem=10px<span class="token punctuation">;</span>
+<span class="token selector">html</span> <span class="token punctuation">{</span>
+<span class="token property">font-size</span><span class="token punctuation">:</span>62.5%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><ol start="2"><li>rem 来实现响应式布局</li></ol> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">function</span> <span class="token function">refresh</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">var</span> doc <span class="token operator">=</span> window
+  <span class="token keyword">var</span> width <span class="token operator">=</span>doc<span class="token punctuation">.</span>innerWidth
+  <span class="token keyword">var</span> design<span class="token operator">=</span><span class="token number">1200</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span>width<span class="token operator">&lt;</span><span class="token number">750</span><span class="token operator">&gt;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    design<span class="token operator">=</span><span class="token number">640</span>
+  <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>width<span class="token operator">&lt;</span>design<span class="token operator">&gt;</span><span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+    width<span class="token operator">-=</span><span class="token number">80</span>
+  <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+    width<span class="token operator">=</span>design
+  <span class="token punctuation">}</span>
+  <span class="token keyword">var</span> fontsize<span class="token operator">=</span> width<span class="token operator">/</span>design<span class="token operator">*</span><span class="token number">100</span> <span class="token operator">+</span> <span class="token string">'px'</span>
+<span class="token punctuation">}</span>
+ window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'resize'</span><span class="token punctuation">,</span>refresh<span class="token punctuation">)</span>
+</code></pre></div><ol start="3"><li>rem2px px2rem
+原理：预处理css文件 将px转rem</li></ol> <p>1）webpack loader</p> <div class="language- extra-class"><pre class="language-text"><code>px2rem 
+npm i px2rem-loader
+
+modules:{
+  rule:[
+    {
+      test:/.\css$/,
+      loader:[{
+        loader:'style-loader'
+      },
+      {
+        loader:'css-loader'
+      },
+      {
+        loader:'px2rem-loader',
+        options:{
+          remUni:75,
+          remPrecision:8
+        }
+      },
+      ]
+    }
+  ]
+}
+</code></pre></div><p>2）webpack plugin</p> <div class="language- extra-class"><pre class="language-text"><code>npm install postcss-loader
+</code></pre></div><ol start="4"><li>rem缺点
+js和css耦合 （通过控制根元素的font-size）</li></ol> <h2 id="五、vh和vw"><a href="#五、vh和vw" class="header-anchor">#</a> 五、vh和vw</h2> <ol><li>解释</li></ol> <ul><li>css3的属性</li> <li>相对视口的宽高</li> <li>更是理想百分比的单位</li></ul> <div class="language- extra-class"><pre class="language-text"><code> window.innerWidth //900
+ {
+   font-size:10vw; //90
+ }
+</code></pre></div><ol start="2"><li>vw转换</li></ol> <div class="language- extra-class"><pre class="language-text"><code>//如iphone 375*667分辨率
+1px = 1/375 * 100 vw;
+1vw = 375/100
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/css/" class="prev router-link-active">
+        Css知识
+      </a></span> <!----></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.911c490e.js" defer></script><script src="/assets/js/2.570561dd.js" defer></script><script src="/assets/js/16.8a1014ee.js" defer></script>
+  </body>
+</html>

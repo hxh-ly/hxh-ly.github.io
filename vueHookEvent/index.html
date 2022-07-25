@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>vue中HookEvent | 阿栩阿栩的日记本</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    
+    <meta name="description" content="Just playing around">
+    
+    <link rel="preload" href="/assets/css/0.styles.e4d8b86b.css" as="style"><link rel="preload" href="/assets/js/app.911c490e.js" as="script"><link rel="preload" href="/assets/js/2.570561dd.js" as="script"><link rel="preload" href="/assets/js/28.a8d9583e.js" as="script"><link rel="prefetch" href="/assets/js/10.cc62d249.js"><link rel="prefetch" href="/assets/js/11.fc73ab7b.js"><link rel="prefetch" href="/assets/js/12.5b0bf58b.js"><link rel="prefetch" href="/assets/js/13.991a391c.js"><link rel="prefetch" href="/assets/js/14.555affc5.js"><link rel="prefetch" href="/assets/js/15.74f97050.js"><link rel="prefetch" href="/assets/js/16.8a1014ee.js"><link rel="prefetch" href="/assets/js/17.8489d764.js"><link rel="prefetch" href="/assets/js/18.09002f24.js"><link rel="prefetch" href="/assets/js/19.23898317.js"><link rel="prefetch" href="/assets/js/20.d66b1e41.js"><link rel="prefetch" href="/assets/js/21.2a97b205.js"><link rel="prefetch" href="/assets/js/22.23793e6e.js"><link rel="prefetch" href="/assets/js/23.f6a0d951.js"><link rel="prefetch" href="/assets/js/24.2c57367e.js"><link rel="prefetch" href="/assets/js/25.e2a5d8be.js"><link rel="prefetch" href="/assets/js/26.c38a9084.js"><link rel="prefetch" href="/assets/js/27.ccd0c941.js"><link rel="prefetch" href="/assets/js/29.990c541f.js"><link rel="prefetch" href="/assets/js/3.63f13205.js"><link rel="prefetch" href="/assets/js/30.71997992.js"><link rel="prefetch" href="/assets/js/31.50dde834.js"><link rel="prefetch" href="/assets/js/32.6a18934b.js"><link rel="prefetch" href="/assets/js/33.1fd28e87.js"><link rel="prefetch" href="/assets/js/34.5ef3ff75.js"><link rel="prefetch" href="/assets/js/35.84f4e5c6.js"><link rel="prefetch" href="/assets/js/36.8d84ab5e.js"><link rel="prefetch" href="/assets/js/37.26483797.js"><link rel="prefetch" href="/assets/js/38.24070232.js"><link rel="prefetch" href="/assets/js/39.49f30090.js"><link rel="prefetch" href="/assets/js/4.5a22df0b.js"><link rel="prefetch" href="/assets/js/40.f9baad45.js"><link rel="prefetch" href="/assets/js/41.fdb60b56.js"><link rel="prefetch" href="/assets/js/5.35f321f1.js"><link rel="prefetch" href="/assets/js/6.e0cb1ce8.js"><link rel="prefetch" href="/assets/js/7.c23ce467.js"><link rel="prefetch" href="/assets/js/8.711e37da.js"><link rel="prefetch" href="/assets/js/9.35f7cd50.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.e4d8b86b.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/assets/img/cattt.png" alt="阿栩阿栩的日记本" class="logo"> <span class="site-name can-hide">阿栩阿栩的日记本</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="html" class="dropdown-title"><span class="title">html</span> <span class="arrow down"></span></button> <button type="button" aria-label="html" class="mobile-dropdown-title"><span class="title">html</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/language/chinese/" class="nav-link">
+  Chinese
+</a></li><li class="dropdown-item"><!----> <a href="/language/japanese/" class="nav-link">
+  Japanese
+</a></li></ul></div></div><div class="nav-item"><a href="/css/" class="nav-link">
+  css
+</a></div><div class="nav-item"><a href="/typescript/" class="nav-link">
+  typescript
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="js" class="dropdown-title"><span class="title">js</span> <span class="arrow down"></span></button> <button type="button" aria-label="js" class="mobile-dropdown-title"><span class="title">js</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          es6
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  继承
+</a></li><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  扩展预算
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="vue" class="dropdown-title"><span class="title">vue</span> <span class="arrow down"></span></button> <button type="button" aria-label="vue" class="mobile-dropdown-title"><span class="title">vue</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          vue2
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vueHookEvent/.html" class="nav-link">
+  diff
+</a></li></ul></li><li class="dropdown-item"><h4>
+          vue3
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vue/vue3/diff/" class="nav-link">
+  diff
+</a></li><li class="dropdown-subitem"><a href="/vue/vue3/reactive/" class="nav-link">
+  响应式原理
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/react/" class="nav-link">
+  react
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link">
+  webpack
+</a></div><div class="nav-item"><a href="/node/" class="nav-link">
+  node
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="html" class="dropdown-title"><span class="title">html</span> <span class="arrow down"></span></button> <button type="button" aria-label="html" class="mobile-dropdown-title"><span class="title">html</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/language/chinese/" class="nav-link">
+  Chinese
+</a></li><li class="dropdown-item"><!----> <a href="/language/japanese/" class="nav-link">
+  Japanese
+</a></li></ul></div></div><div class="nav-item"><a href="/css/" class="nav-link">
+  css
+</a></div><div class="nav-item"><a href="/typescript/" class="nav-link">
+  typescript
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="js" class="dropdown-title"><span class="title">js</span> <span class="arrow down"></span></button> <button type="button" aria-label="js" class="mobile-dropdown-title"><span class="title">js</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          es6
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  继承
+</a></li><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  扩展预算
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="vue" class="dropdown-title"><span class="title">vue</span> <span class="arrow down"></span></button> <button type="button" aria-label="vue" class="mobile-dropdown-title"><span class="title">vue</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          vue2
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vueHookEvent/.html" class="nav-link">
+  diff
+</a></li></ul></li><li class="dropdown-item"><h4>
+          vue3
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vue/vue3/diff/" class="nav-link">
+  diff
+</a></li><li class="dropdown-subitem"><a href="/vue/vue3/reactive/" class="nav-link">
+  响应式原理
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/react/" class="nav-link">
+  react
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link">
+  webpack
+</a></div><div class="nav-item"><a href="/node/" class="nav-link">
+  node
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><a href="/js/" class="sidebar-heading clickable open"><span>JavaScript</span> <span class="arrow down"></span></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/js/" class="sidebar-link">目录</a></li><li><a href="/js/es6/" class="sidebar-link">js基础es6</a></li><li><a href="/js/a.html" class="sidebar-link">js中的a</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/vue/" class="sidebar-heading clickable"><span>Vue</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/vuerouter/" class="sidebar-heading clickable"><span>VueRouter</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/vuex/" class="sidebar-heading clickable"><span>Vuex</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/browser/" class="sidebar-heading clickable"><span>browser</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/webpack/" class="sidebar-heading clickable"><span>webpack</span> <span class="arrow right"></span></a> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="_0-目的"><a href="#_0-目的" class="header-anchor">#</a> 0. 目的</h1> <p>理解什么是 Hook Event？明白其使用的场景
+深入理解 Hook Event 的实现原理</p> <h1 id="_1-什么是-hookevent"><a href="#_1-什么是-hookevent" class="header-anchor">#</a> 1. 什么是 HookEvent</h1> <p>HookEvent———— 是自定义事件结合生命周期实现的一种从外部为组件注入额外生命周期方法的功能</p> <h1 id="_2-使用场景"><a href="#_2-使用场景" class="header-anchor">#</a> 2.使用场景</h1> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">//第三方组件</span>
+<span class="token function">mounted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+   <span class="token keyword">var</span> res<span class="token operator">=</span> <span class="token keyword">await</span> axios<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'xxx'</span><span class="token punctuation">)</span>
+   arr<span class="token operator">=</span>res
+
+<span class="token punctuation">}</span>
+</code></pre></div><p>假设我要在 mounted 请求数据的时候添加 loading，而由于是第三方组件不好修改，我们就可以通过<code>hookEvent</code>为生命周期注入额外方法</p> <h1 id="_3-实现原理"><a href="#_3-实现原理" class="header-anchor">#</a> 3.实现原理</h1> <p>我们知道 vue 在各种生命周期阶段内部是调用<code>callHook</code>的执行钩子方法的，</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">callHook</span><span class="token punctuation">(</span><span class="token parameter"><span class="token literal-property property">vm</span><span class="token operator">:</span> component<span class="token punctuation">,</span> <span class="token literal-property property">hook</span><span class="token operator">:</span> string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">//打开依赖收集</span>
+  <span class="token function">pushTarget</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> handler <span class="token operator">=</span> vm<span class="token punctuation">.</span>options<span class="token punctuation">[</span>hook<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> info <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>hook<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> hook</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>handler<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    handler<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">item</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token comment">//包裹了执行方法 做些try catch</span>
+      <span class="token function">invokeWithErrorHanding</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> vm<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> vm<span class="token punctuation">,</span> info<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">//如果设置event hook  &lt;compA  hook:mounted='xxx'&gt;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>vm<span class="token punctuation">.</span>_hasHookEvent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    vm<span class="token punctuation">.</span><span class="token function">emit</span><span class="token punctuation">(</span><span class="token string">&quot;hook:&quot;</span> <span class="token operator">+</span> hook<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">//关闭收集依赖</span>
+<span class="token punctuation">}</span>
+</code></pre></div><div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> <span class="token function">invokeWithErrorHanding</span><span class="token punctuation">(</span>
+  <span class="token literal-property property">handler</span><span class="token operator">:</span>Function<span class="token punctuation">,</span>
+  <span class="token literal-property property">context</span><span class="token operator">:</span>any<span class="token punctuation">,</span>
+  <span class="token literal-property property">args</span><span class="token operator">:</span><span class="token keyword">null</span><span class="token operator">||</span> any<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">vm</span><span class="token operator">:</span>any<span class="token punctuation">,</span>
+  <span class="token literal-property property">info</span><span class="token operator">:</span>string
+  <span class="token punctuation">}</span> 
+  <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> res
+    <span class="token keyword">try</span><span class="token punctuation">{</span>
+      res<span class="token operator">=</span> args<span class="token operator">?</span> <span class="token function">handler</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>vm<span class="token punctuation">,</span>args<span class="token punctuation">)</span><span class="token operator">:</span><span class="token function">handler</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>vm<span class="token punctuation">)</span>
+      <span class="token keyword">if</span><span class="token punctuation">(</span>res<span class="token operator">&amp;&amp;</span>  <span class="token function">isPromise</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token operator">&amp;&amp;</span> res<span class="token punctuation">.</span>_handled <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        res<span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">err</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span>
+          <span class="token function">handleError</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span>vm<span class="token punctuation">,</span>info<span class="token operator">+</span><span class="token string">'(promise/async)'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        res<span class="token punctuation">.</span>_handled<span class="token operator">=</span><span class="token boolean">true</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token keyword">catch</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">handleError</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span>vm<span class="token punctuation">,</span>info<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">)</span>
+</code></pre></div><h1 id="_4-on"><a href="#_4-on" class="header-anchor">#</a> 4.$on</h1> <div class="language-js extra-class"><pre class="language-js"><code><span class="token class-name">Vue</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">$on</span><span class="token operator">=</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter"><span class="token literal-property property">name</span><span class="token operator">:</span>string<span class="token operator">||</span>any<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token literal-property property">fn</span><span class="token operator">:</span>Function</span><span class="token punctuation">)</span><span class="token operator">:</span>Component <span class="token punctuation">{</span>
+   <span class="token keyword">const</span> vm <span class="token operator">=</span> <span class="token keyword">this</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span>Array<span class="token punctuation">.</span><span class="token function">isArray</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    name<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">item</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span>
+      vm<span class="token punctuation">.</span><span class="token function">$on</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span>fn<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">(</span>vm<span class="token punctuation">.</span>_events<span class="token punctuation">[</span>name<span class="token operator">||</span>vm<span class="token punctuation">.</span>events<span class="token punctuation">[</span>name<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>fn<span class="token punctuation">)</span>
+    <span class="token comment">//如果监听的事件存在hookEvent 标记 _hasHookVent</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>HookRe<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      vm<span class="token punctuation">.</span>_hasHookEvent<span class="token operator">=</span><span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+   <span class="token keyword">return</span> vm 
+<span class="token punctuation">}</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.911c490e.js" defer></script><script src="/assets/js/2.570561dd.js" defer></script><script src="/assets/js/28.a8d9583e.js" defer></script>
+  </body>
+</html>

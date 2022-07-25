@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>vue3最简洁响应式的原理 | 阿栩阿栩的日记本</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    
+    <meta name="description" content="Just playing around">
+    
+    <link rel="preload" href="/assets/css/0.styles.e4d8b86b.css" as="style"><link rel="preload" href="/assets/js/app.911c490e.js" as="script"><link rel="preload" href="/assets/js/2.570561dd.js" as="script"><link rel="preload" href="/assets/js/32.6a18934b.js" as="script"><link rel="prefetch" href="/assets/js/10.cc62d249.js"><link rel="prefetch" href="/assets/js/11.fc73ab7b.js"><link rel="prefetch" href="/assets/js/12.5b0bf58b.js"><link rel="prefetch" href="/assets/js/13.991a391c.js"><link rel="prefetch" href="/assets/js/14.555affc5.js"><link rel="prefetch" href="/assets/js/15.74f97050.js"><link rel="prefetch" href="/assets/js/16.8a1014ee.js"><link rel="prefetch" href="/assets/js/17.8489d764.js"><link rel="prefetch" href="/assets/js/18.09002f24.js"><link rel="prefetch" href="/assets/js/19.23898317.js"><link rel="prefetch" href="/assets/js/20.d66b1e41.js"><link rel="prefetch" href="/assets/js/21.2a97b205.js"><link rel="prefetch" href="/assets/js/22.23793e6e.js"><link rel="prefetch" href="/assets/js/23.f6a0d951.js"><link rel="prefetch" href="/assets/js/24.2c57367e.js"><link rel="prefetch" href="/assets/js/25.e2a5d8be.js"><link rel="prefetch" href="/assets/js/26.c38a9084.js"><link rel="prefetch" href="/assets/js/27.ccd0c941.js"><link rel="prefetch" href="/assets/js/28.a8d9583e.js"><link rel="prefetch" href="/assets/js/29.990c541f.js"><link rel="prefetch" href="/assets/js/3.63f13205.js"><link rel="prefetch" href="/assets/js/30.71997992.js"><link rel="prefetch" href="/assets/js/31.50dde834.js"><link rel="prefetch" href="/assets/js/33.1fd28e87.js"><link rel="prefetch" href="/assets/js/34.5ef3ff75.js"><link rel="prefetch" href="/assets/js/35.84f4e5c6.js"><link rel="prefetch" href="/assets/js/36.8d84ab5e.js"><link rel="prefetch" href="/assets/js/37.26483797.js"><link rel="prefetch" href="/assets/js/38.24070232.js"><link rel="prefetch" href="/assets/js/39.49f30090.js"><link rel="prefetch" href="/assets/js/4.5a22df0b.js"><link rel="prefetch" href="/assets/js/40.f9baad45.js"><link rel="prefetch" href="/assets/js/41.fdb60b56.js"><link rel="prefetch" href="/assets/js/5.35f321f1.js"><link rel="prefetch" href="/assets/js/6.e0cb1ce8.js"><link rel="prefetch" href="/assets/js/7.c23ce467.js"><link rel="prefetch" href="/assets/js/8.711e37da.js"><link rel="prefetch" href="/assets/js/9.35f7cd50.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.e4d8b86b.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/assets/img/cattt.png" alt="阿栩阿栩的日记本" class="logo"> <span class="site-name can-hide">阿栩阿栩的日记本</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="html" class="dropdown-title"><span class="title">html</span> <span class="arrow down"></span></button> <button type="button" aria-label="html" class="mobile-dropdown-title"><span class="title">html</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/language/chinese/" class="nav-link">
+  Chinese
+</a></li><li class="dropdown-item"><!----> <a href="/language/japanese/" class="nav-link">
+  Japanese
+</a></li></ul></div></div><div class="nav-item"><a href="/css/" class="nav-link">
+  css
+</a></div><div class="nav-item"><a href="/typescript/" class="nav-link">
+  typescript
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="js" class="dropdown-title"><span class="title">js</span> <span class="arrow down"></span></button> <button type="button" aria-label="js" class="mobile-dropdown-title"><span class="title">js</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          es6
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  继承
+</a></li><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  扩展预算
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="vue" class="dropdown-title"><span class="title">vue</span> <span class="arrow down"></span></button> <button type="button" aria-label="vue" class="mobile-dropdown-title"><span class="title">vue</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          vue2
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vue/vue3/reactive/.html" class="nav-link">
+  diff
+</a></li></ul></li><li class="dropdown-item"><h4>
+          vue3
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vue/vue3/diff/" class="nav-link">
+  diff
+</a></li><li class="dropdown-subitem"><a href="/vue/vue3/reactive/" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  响应式原理
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/react/" class="nav-link">
+  react
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link">
+  webpack
+</a></div><div class="nav-item"><a href="/node/" class="nav-link">
+  node
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="html" class="dropdown-title"><span class="title">html</span> <span class="arrow down"></span></button> <button type="button" aria-label="html" class="mobile-dropdown-title"><span class="title">html</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/language/chinese/" class="nav-link">
+  Chinese
+</a></li><li class="dropdown-item"><!----> <a href="/language/japanese/" class="nav-link">
+  Japanese
+</a></li></ul></div></div><div class="nav-item"><a href="/css/" class="nav-link">
+  css
+</a></div><div class="nav-item"><a href="/typescript/" class="nav-link">
+  typescript
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="js" class="dropdown-title"><span class="title">js</span> <span class="arrow down"></span></button> <button type="button" aria-label="js" class="mobile-dropdown-title"><span class="title">js</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          es6
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  继承
+</a></li><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  扩展预算
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="vue" class="dropdown-title"><span class="title">vue</span> <span class="arrow down"></span></button> <button type="button" aria-label="vue" class="mobile-dropdown-title"><span class="title">vue</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          vue2
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vue/vue3/reactive/.html" class="nav-link">
+  diff
+</a></li></ul></li><li class="dropdown-item"><h4>
+          vue3
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vue/vue3/diff/" class="nav-link">
+  diff
+</a></li><li class="dropdown-subitem"><a href="/vue/vue3/reactive/" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  响应式原理
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/react/" class="nav-link">
+  react
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link">
+  webpack
+</a></div><div class="nav-item"><a href="/node/" class="nav-link">
+  node
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><a href="/js/" class="sidebar-heading clickable"><span>JavaScript</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/vue/" class="sidebar-heading clickable router-link-active open"><span>Vue</span> <span class="arrow down"></span></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/vue/vue3/diff/" class="sidebar-link">vue3 diff详解</a></li><li><a href="/vue/vue3/reactive/" aria-current="page" class="active sidebar-link">vue3最简洁响应式的原理</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/vuerouter/" class="sidebar-heading clickable"><span>VueRouter</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/vuex/" class="sidebar-heading clickable"><span>Vuex</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/browser/" class="sidebar-heading clickable"><span>browser</span> <span class="arrow right"></span></a> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><a href="/webpack/" class="sidebar-heading clickable"><span>webpack</span> <span class="arrow right"></span></a> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="什么是响应式"><a href="#什么是响应式" class="header-anchor">#</a> 什么是响应式</h1> <p>响应式就是在依赖数据的地方，当数据发生改变的时候，依赖数据的地方执行相应的方式进行响应。</p> <h1 id="如何成为响应式"><a href="#如何成为响应式" class="header-anchor">#</a> 如何成为响应式</h1> <p>使用<code>proxy</code>结合<code>Reflect</code>
+什么是proxy和Reflect</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">let</span> obj <span class="token operator">=</span><span class="token punctuation">{</span>
+  <span class="token literal-property property">age</span><span class="token operator">:</span><span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">name</span><span class="token operator">:</span><span class="token string">'a'</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//receiver就是proxyObj</span>
+<span class="token keyword">let</span> proxyObj <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Proxy</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token punctuation">{</span>
+  <span class="token function-variable function">get</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">target<span class="token punctuation">,</span>key<span class="token punctuation">,</span>receiver</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'---'</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> Reflect<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span>key<span class="token punctuation">,</span>receiver<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">set</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">target<span class="token punctuation">,</span>key<span class="token punctuation">,</span>val<span class="token punctuation">,</span>receiver</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    Reflect<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span>key<span class="token punctuation">,</span>val<span class="token punctuation">,</span>receiver<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token comment">//测试</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>proxyObj<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+<span class="token comment">// 'a' </span>
+<span class="token comment">// '---'</span>
+</code></pre></div><h1 id="依赖收集的类"><a href="#依赖收集的类" class="header-anchor">#</a> 依赖收集的类</h1> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">class</span> <span class="token class-name">Depend</span><span class="token punctuation">{</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>arr<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">addDepend</span><span class="token punctuation">(</span><span class="token parameter">sub</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>arr<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>sub<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>arr<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">item</span><span class="token operator">=&gt;</span><span class="token function">item</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h1 id="依赖收集的管理"><a href="#依赖收集的管理" class="header-anchor">#</a> 依赖收集的管理</h1> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">let</span> weakMap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WeakMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">function</span> <span class="token function">getDepend</span><span class="token punctuation">(</span><span class="token parameter">target<span class="token punctuation">,</span>key</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">let</span> map <span class="token operator">=</span> weakMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>map<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Map</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    weakMap<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span>map <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">let</span> dep <span class="token operator">=</span> map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>dep<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    dep <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Depend</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    map<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span>dep<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> dep<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p><img src="'./vue3-depend.jpg'" alt="vue3依赖收集的数据结构"></p> <h1 id="完整demo"><a href="#完整demo" class="header-anchor">#</a> 完整demo</h1> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">//1.收集依赖的depend类</span>
+<span class="token keyword">class</span> <span class="token class-name">Depend</span><span class="token punctuation">{</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>arr<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">addDepend</span><span class="token punctuation">(</span><span class="token parameter">sub</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>arr<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>sub<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>arr<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">item</span><span class="token operator">=&gt;</span><span class="token function">item</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//2.全局变量，为了获取watchfn中正传入的fn，便于在get中获取。</span>
+<span class="token keyword">let</span> activeReactiveFn <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token comment">//3.vue3 依赖收集的数据结构，如上图所示。</span>
+<span class="token keyword">let</span> weakMap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WeakMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">//4.普通对象</span>
+<span class="token keyword">let</span> obj <span class="token operator">=</span><span class="token punctuation">{</span>
+  <span class="token literal-property property">age</span><span class="token operator">:</span><span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">name</span><span class="token operator">:</span><span class="token string">'a'</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//5.代理对象，get set劫持。</span>
+<span class="token keyword">let</span> proxyObj <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Proxy</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span><span class="token punctuation">{</span>
+  <span class="token function-variable function">get</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">target<span class="token punctuation">,</span>key<span class="token punctuation">,</span>receiver</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment">//</span>
+    <span class="token keyword">let</span> dep <span class="token operator">=</span> <span class="token function">getDepend</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span>key<span class="token punctuation">)</span>
+    dep<span class="token punctuation">.</span><span class="token function">addDepend</span><span class="token punctuation">(</span>activeReactiveFn<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> Reflect<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span>key<span class="token punctuation">,</span>receiver<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">set</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">target<span class="token punctuation">,</span>key<span class="token punctuation">,</span>val<span class="token punctuation">,</span>receiver</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">let</span> dep <span class="token operator">=</span> <span class="token function">getDepend</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span>key<span class="token punctuation">)</span>
+    dep<span class="token punctuation">.</span><span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    Reflect<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span>key<span class="token punctuation">,</span>val<span class="token punctuation">,</span>receiver<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token comment">//6.获取对象属性对应的depend。没有就创建。</span>
+<span class="token keyword">function</span> <span class="token function">getDepend</span><span class="token punctuation">(</span><span class="token parameter">target<span class="token punctuation">,</span>key</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">let</span> map <span class="token operator">=</span> weakMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>map<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Map</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    weakMap<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span>map <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">let</span> dep <span class="token operator">=</span> map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>dep<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    dep <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Depend</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    map<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span>dep<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> dep<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//7.函数首次执行会触发get.收集此时的fn在对应的depend中。</span>
+<span class="token keyword">function</span> <span class="token function">watchFn</span><span class="token punctuation">(</span><span class="token parameter">fn</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  activeReactiveFn <span class="token operator">=</span> fn
+  <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  activeReactiveFn <span class="token operator">=</span> <span class="token keyword">null</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//8.正式测试</span>
+<span class="token function">watchFn</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'1.用到了 obj的name会被收集'</span><span class="token punctuation">,</span>proxyObj<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token function">watchFn</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'2.用到了 obj的name会被收集'</span><span class="token punctuation">,</span>proxyObj<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'--------------set触发，回调重新执行-----------------'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+proxyObj<span class="token punctuation">.</span>name<span class="token operator">=</span><span class="token string">'我改了，回调要执行了'</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/vue/vue3/diff/" class="prev">
+        vue3 diff详解
+      </a></span> <span class="next"><a href="/vuerouter/intro/">
+        VueRouter介绍
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.911c490e.js" defer></script><script src="/assets/js/2.570561dd.js" defer></script><script src="/assets/js/32.6a18934b.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>loader的原理和实现 | 阿栩阿栩的日记本</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    
+    <meta name="description" content="Just playing around">
+    
+    <link rel="preload" href="/assets/css/0.styles.e4d8b86b.css" as="style"><link rel="preload" href="/assets/js/app.911c490e.js" as="script"><link rel="preload" href="/assets/js/2.570561dd.js" as="script"><link rel="preload" href="/assets/js/6.e0cb1ce8.js" as="script"><link rel="prefetch" href="/assets/js/10.cc62d249.js"><link rel="prefetch" href="/assets/js/11.fc73ab7b.js"><link rel="prefetch" href="/assets/js/12.5b0bf58b.js"><link rel="prefetch" href="/assets/js/13.991a391c.js"><link rel="prefetch" href="/assets/js/14.555affc5.js"><link rel="prefetch" href="/assets/js/15.74f97050.js"><link rel="prefetch" href="/assets/js/16.8a1014ee.js"><link rel="prefetch" href="/assets/js/17.8489d764.js"><link rel="prefetch" href="/assets/js/18.09002f24.js"><link rel="prefetch" href="/assets/js/19.23898317.js"><link rel="prefetch" href="/assets/js/20.d66b1e41.js"><link rel="prefetch" href="/assets/js/21.2a97b205.js"><link rel="prefetch" href="/assets/js/22.23793e6e.js"><link rel="prefetch" href="/assets/js/23.f6a0d951.js"><link rel="prefetch" href="/assets/js/24.2c57367e.js"><link rel="prefetch" href="/assets/js/25.e2a5d8be.js"><link rel="prefetch" href="/assets/js/26.c38a9084.js"><link rel="prefetch" href="/assets/js/27.ccd0c941.js"><link rel="prefetch" href="/assets/js/28.a8d9583e.js"><link rel="prefetch" href="/assets/js/29.990c541f.js"><link rel="prefetch" href="/assets/js/3.63f13205.js"><link rel="prefetch" href="/assets/js/30.71997992.js"><link rel="prefetch" href="/assets/js/31.50dde834.js"><link rel="prefetch" href="/assets/js/32.6a18934b.js"><link rel="prefetch" href="/assets/js/33.1fd28e87.js"><link rel="prefetch" href="/assets/js/34.5ef3ff75.js"><link rel="prefetch" href="/assets/js/35.84f4e5c6.js"><link rel="prefetch" href="/assets/js/36.8d84ab5e.js"><link rel="prefetch" href="/assets/js/37.26483797.js"><link rel="prefetch" href="/assets/js/38.24070232.js"><link rel="prefetch" href="/assets/js/39.49f30090.js"><link rel="prefetch" href="/assets/js/4.5a22df0b.js"><link rel="prefetch" href="/assets/js/40.f9baad45.js"><link rel="prefetch" href="/assets/js/41.fdb60b56.js"><link rel="prefetch" href="/assets/js/5.35f321f1.js"><link rel="prefetch" href="/assets/js/7.c23ce467.js"><link rel="prefetch" href="/assets/js/8.711e37da.js"><link rel="prefetch" href="/assets/js/9.35f7cd50.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.e4d8b86b.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/assets/img/cattt.png" alt="阿栩阿栩的日记本" class="logo"> <span class="site-name can-hide">阿栩阿栩的日记本</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="html" class="dropdown-title"><span class="title">html</span> <span class="arrow down"></span></button> <button type="button" aria-label="html" class="mobile-dropdown-title"><span class="title">html</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/language/chinese/" class="nav-link">
+  Chinese
+</a></li><li class="dropdown-item"><!----> <a href="/language/japanese/" class="nav-link">
+  Japanese
+</a></li></ul></div></div><div class="nav-item"><a href="/css/" class="nav-link">
+  css
+</a></div><div class="nav-item"><a href="/typescript/" class="nav-link">
+  typescript
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="js" class="dropdown-title"><span class="title">js</span> <span class="arrow down"></span></button> <button type="button" aria-label="js" class="mobile-dropdown-title"><span class="title">js</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          es6
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  继承
+</a></li><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  扩展预算
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="vue" class="dropdown-title"><span class="title">vue</span> <span class="arrow down"></span></button> <button type="button" aria-label="vue" class="mobile-dropdown-title"><span class="title">vue</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          vue2
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/webpack/loader/.html" class="nav-link">
+  diff
+</a></li></ul></li><li class="dropdown-item"><h4>
+          vue3
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vue/vue3/diff/" class="nav-link">
+  diff
+</a></li><li class="dropdown-subitem"><a href="/vue/vue3/reactive/" class="nav-link">
+  响应式原理
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/react/" class="nav-link">
+  react
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link router-link-active">
+  webpack
+</a></div><div class="nav-item"><a href="/node/" class="nav-link">
+  node
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="html" class="dropdown-title"><span class="title">html</span> <span class="arrow down"></span></button> <button type="button" aria-label="html" class="mobile-dropdown-title"><span class="title">html</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/language/chinese/" class="nav-link">
+  Chinese
+</a></li><li class="dropdown-item"><!----> <a href="/language/japanese/" class="nav-link">
+  Japanese
+</a></li></ul></div></div><div class="nav-item"><a href="/css/" class="nav-link">
+  css
+</a></div><div class="nav-item"><a href="/typescript/" class="nav-link">
+  typescript
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="js" class="dropdown-title"><span class="title">js</span> <span class="arrow down"></span></button> <button type="button" aria-label="js" class="mobile-dropdown-title"><span class="title">js</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          es6
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  继承
+</a></li><li class="dropdown-subitem"><a href="/js/es6/extends/" class="nav-link">
+  扩展预算
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="vue" class="dropdown-title"><span class="title">vue</span> <span class="arrow down"></span></button> <button type="button" aria-label="vue" class="mobile-dropdown-title"><span class="title">vue</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          vue2
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/webpack/loader/.html" class="nav-link">
+  diff
+</a></li></ul></li><li class="dropdown-item"><h4>
+          vue3
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/vue/vue3/diff/" class="nav-link">
+  diff
+</a></li><li class="dropdown-subitem"><a href="/vue/vue3/reactive/" class="nav-link">
+  响应式原理
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/react/" class="nav-link">
+  react
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link router-link-active">
+  webpack
+</a></div><div class="nav-item"><a href="/node/" class="nav-link">
+  node
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><a href="/webpack/" class="sidebar-heading clickable router-link-active open"><span>Webpack</span> <span class="arrow down"></span></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/webpack/" aria-current="page" class="sidebar-link">WebPack目录结构</a></li><li><a href="/webpack/loader/" aria-current="page" class="active sidebar-link">loader的原理和实现</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/webpack/loader/#本文介绍loader的大纲" class="sidebar-link">本文介绍loader的大纲</a></li><li class="sidebar-sub-header"><a href="/webpack/loader/#loader-的作用" class="sidebar-link">loader 的作用</a></li><li class="sidebar-sub-header"><a href="/webpack/loader/#loader-配置相关-api" class="sidebar-link">loader 配置相关 api</a></li><li class="sidebar-sub-header"><a href="/webpack/loader/#loader-开发的相关-api" class="sidebar-link">loader 开发的相关 api</a></li><li class="sidebar-sub-header"><a href="/webpack/loader/#loader-源码解析" class="sidebar-link">loader 源码解析</a></li></ul></li><li><a href="/webpack/plugin/" class="sidebar-link">plugin原理和实现</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="本文介绍loader的大纲"><a href="#本文介绍loader的大纲" class="header-anchor">#</a> 本文介绍<code>loader</code>的大纲</h2> <ul><li>概念： 何谓 loader，从基础开发快速入门日用配置</li> <li>原理： 从源码角度解读，手把手实现核心<code>loader-runner</code>库</li> <li>实现： 复刻高频出现<code>babel-loader</code>,掌握<code>loader</code>开发流程</li></ul> <hr> <h1 id="一、loader-概念"><a href="#一、loader-概念" class="header-anchor">#</a> 一、loader 概念</h1> <h2 id="loader-的作用"><a href="#loader-的作用" class="header-anchor">#</a> loader 的作用</h2> <p><code>loader</code>本质是个函数，将 webpack 不能识别的资源文件转化为 js。</p> <p><code>webpack</code>中通过<code>compilation</code>对象进行模块的编译，首先进行匹配<code>loader</code>处理文件得到的结果(string|buffer),之后才会输出给 webpack 进行编译。</p> <p>简单来说，通过它可以在<code>webpack</code>处理特定的资源（文件）之前进行提前处理。
+如 ：ts 文件通过<code>babel-loader</code>处理成 js，之后再交给 webpack 处理。</p> <h2 id="loader-配置相关-api"><a href="#loader-配置相关-api" class="header-anchor">#</a> loader 配置相关 api</h2> <h3 id="常见基础配置参数"><a href="#常见基础配置参数" class="header-anchor">#</a> 常见基础配置参数</h3> <h3 id="webpack-配置配置-loader-的三种方式。"><a href="#webpack-配置配置-loader-的三种方式。" class="header-anchor">#</a> webpack 配置配置 loader 的三种方式。</h3> <h3 id="绝对路径"><a href="#绝对路径" class="header-anchor">#</a> 绝对路径</h3> <h3 id="resolveloader-alias"><a href="#resolveloader-alias" class="header-anchor">#</a> resolveLoader.alias</h3> <h3 id="resolveloader-module"><a href="#resolveloader-module" class="header-anchor">#</a> resolveLoader.module</h3> <h3 id="loader-种类和执行顺序"><a href="#loader-种类和执行顺序" class="header-anchor">#</a> loader 种类和执行顺序</h3> <p>种类：</p> <ul><li>preLoader</li> <li>normalLoader</li> <li>inlineLoader</li> <li>postLoader</li></ul> <p>执行阶段</p> <ul><li>pitch 阶段</li> <li>normal 阶段</li></ul> <h3 id="loader-的-pitch-阶段"><a href="#loader-的-pitch-阶段" class="header-anchor">#</a> loader 的 pitch 阶段</h3> <h3 id="pitch-loader-的熔断效果"><a href="#pitch-loader-的熔断效果" class="header-anchor">#</a> pitch loader 的熔断效果</h3> <p>pitch 是 loader 中的一个函数</p> <div class="language-js extra-class"><pre class="language-js"><code>loader<span class="token punctuation">.</span><span class="token function-variable function">pitch</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">//若不return undefined会发生熔断。值返回到normal阶段对于的loader中</span>
+  <span class="token keyword">return</span> <span class="token string">&quot;xxxxstring&quot;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div><h2 id="loader-开发的相关-api"><a href="#loader-开发的相关-api" class="header-anchor">#</a> loader 开发的相关 api</h2> <h3 id="执行顺序对-loader-开发的影响"><a href="#执行顺序对-loader-开发的影响" class="header-anchor">#</a> 执行顺序对 loader 开发的影响</h3> <p>执行顺序仅仅取决于 webpack 应用 loader 时的配置(或者引入文件时候添加的前缀)。</p> <h3 id="同步-or-异步-loader"><a href="#同步-or-异步-loader" class="header-anchor">#</a> 同步 or 异步 loader</h3> <p>异步 loader</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">//返回promise</span>
+<span class="token keyword">function</span> <span class="token function">asyncLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token function">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resolve</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token string">&quot;xxxstring&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//通过this.async</span>
+<span class="token keyword">function</span> <span class="token function">asyncLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> callback <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">async</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">//do something</span>
+  <span class="token comment">// ....</span>
+  <span class="token comment">// 告诉loader-runner异步loader结束</span>
+  <span class="token function">callback</span><span class="token punctuation">(</span><span class="token string">&quot;xxxstring&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="normal-loader"><a href="#normal-loader" class="header-anchor">#</a> normal loader</h3> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// source为需要处理的源文件内容</span>
+<span class="token keyword">function</span> <span class="token function">loader</span><span class="token punctuation">(</span><span class="token parameter">source</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">//本次处理返回的内容</span>
+  <span class="token keyword">return</span> source <span class="token operator">+</span> <span class="token string">&quot;hello!&quot;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//ps : 函数的this中挂载很多属性 如(this.getOptions()获取loader的配置  )</span>
+</code></pre></div><h3 id="pitch-loader"><a href="#pitch-loader" class="header-anchor">#</a> pitch loader</h3> <p>传入三个参数</p> <ul><li>remainingRequest</li> <li>previousRequest</li> <li>data</li></ul> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// normal loader</span>
+<span class="token keyword">function</span> <span class="token function">loader</span><span class="token punctuation">(</span><span class="token parameter">source</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+  <span class="token keyword">return</span> source<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// pitch loader</span>
+loader<span class="token punctuation">.</span><span class="token function-variable function">pitch</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">remainingRequest<span class="token punctuation">,</span> previousRequest<span class="token punctuation">,</span> data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div><p>remainingRequest
+表示剩余需要处理的<code>loader</code>的绝对路径以<code>!</code>分割组成的字符串</p> <p>previousRequest
+表示 pitch 阶段已经迭代过的<code>loader</code>按照<code>!</code>分割组成的字符串</p> <p>data
+默认是一个空对象<code>{}</code>,<code>normalLoader</code>和<code>pitchLoader</code> 通过 data 交互</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">function</span> <span class="token function">loader</span><span class="token punctuation">(</span><span class="token parameter">source</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//'xxxstring'</span>
+  <span class="token keyword">return</span> source<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+loader<span class="token punctuation">.</span><span class="token function-variable function">pitch</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">remainingRequest<span class="token punctuation">,</span> previousRequest<span class="token punctuation">,</span> data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  data<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">&quot;xxxstring&quot;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="loader-的-raw-属性"><a href="#loader-的-raw-属性" class="header-anchor">#</a> loader 的 raw 属性</h3> <p>标志返回的值是<code>buffer</code>还是<code>string</code></p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">function</span> <span class="token function">loader2</span><span class="token punctuation">(</span><span class="token parameter">source</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 此时source是一个Buffer类型 而非模型的string类型</span>
+<span class="token punctuation">}</span>
+loader2<span class="token punctuation">.</span>raw <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> loader2<span class="token punctuation">;</span>
+</code></pre></div><h3 id="返回值"><a href="#返回值" class="header-anchor">#</a> 返回值</h3> <p><code>normal</code>阶段 loader 的返回值会在<code>loader chain</code>进行层层传递，最后的返回值传给<code>webpack</code>（一个<code>module</code>的代码）
+<code>pitch</code>阶段 任意一个<code>pitch loader</code>非<code>undefined</code> 会发生熔断。理解为掉头输出了。</p> <h2 id="loader-源码解析"><a href="#loader-源码解析" class="header-anchor">#</a> loader 源码解析</h2> <p><img src="/assets/img/image-20220509155842003.590c3786.png" alt="image-20220509155842003">
+创建步骤
+如上图创建对应文件</p> <ul><li>loader 文件夹存放对应的 loader(其他自行类比创建)</li></ul> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">//line1-loader.js</span>
+<span class="token keyword">function</span> <span class="token function">loader</span><span class="token punctuation">(</span><span class="token parameter">source</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;inline1: normal&quot;</span><span class="token punctuation">,</span> source<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> source <span class="token operator">+</span> <span class="token string">&quot;//inline1&quot;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+loader<span class="token punctuation">.</span><span class="token function-variable function">pitch</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;inline1 pitch&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> loader<span class="token punctuation">;</span>
+</code></pre></div><ul><li>index.js（入口文件）</li></ul> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;fs&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;path&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token punctuation">{</span> runLoaders <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;loader-runner&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 模块路径</span>
+<span class="token keyword">const</span> filePath <span class="token operator">=</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">&quot;./title.js&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 模拟模块内容和.title.js一模一样的内容</span>
+<span class="token keyword">const</span> request <span class="token operator">=</span> <span class="token string">&quot;inline1-loader!./title.js&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> rules <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token comment">// 普通loader</span>
+  <span class="token punctuation">{</span>
+    <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\.js$</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span>
+    <span class="token literal-property property">use</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;normal1-loader&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// 前置loader</span>
+  <span class="token punctuation">{</span>
+    <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\.js$</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span>
+    <span class="token literal-property property">use</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;pre1-loader&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">enforce</span><span class="token operator">:</span> <span class="token string">&quot;pre&quot;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// 后置loader</span>
+  <span class="token punctuation">{</span>
+    <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\.js$</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span>
+    <span class="token literal-property property">use</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;post1-loader&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token comment">//提取inline-loader</span>
+<span class="token keyword">const</span> parts <span class="token operator">=</span> request<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">^-?!+</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">&quot;!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//获取文件路径</span>
+<span class="token keyword">const</span> sourcePath <span class="token operator">=</span> parts<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ./title.js</span>
+<span class="token comment">// inline-loader</span>
+<span class="token keyword">const</span> inlineLoaders <span class="token operator">=</span> parts<span class="token punctuation">;</span>
+<span class="token keyword">const</span> preLoaders <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  normalLoaders <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  postLoaders <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+rules<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">item</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>test<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>sourcePath<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>enforce<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">case</span> <span class="token string">&quot;pre&quot;</span><span class="token operator">:</span>
+        preLoaders<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token operator">...</span>item<span class="token punctuation">.</span>use<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+      <span class="token keyword">case</span> <span class="token string">&quot;post&quot;</span><span class="token operator">:</span>
+        postLoader<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token operator">...</span>item<span class="token punctuation">.</span>use<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+      <span class="token keyword">default</span><span class="token operator">:</span>
+        normalLoaders<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token operator">...</span>item<span class="token punctuation">.</span>use<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">/* 
+最终过滤
+!  排除 normal
+!! 仅剩下 inline-loader
+-!  剩下post 和 normal
+*/</span>
+<span class="token keyword">let</span> loaders <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>request<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">&quot;!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  loaders<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token operator">...</span>postLoaders<span class="token punctuation">,</span> <span class="token operator">...</span>inlineLoaders<span class="token punctuation">,</span> <span class="token operator">...</span>preLoaders<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>request<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">&quot;!!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  loaders<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token operator">...</span>inlineLoaders<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>request<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span><span class="token string">&quot;-!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  loaders<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token operator">...</span>postLoaders<span class="token punctuation">,</span> <span class="token operator">...</span>normalLoaders<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  loaders<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>
+    <span class="token operator">...</span>postLoaders<span class="token punctuation">,</span>
+    <span class="token operator">...</span>inlineLoaders<span class="token punctuation">,</span>
+    <span class="token operator">...</span>preLoaders<span class="token punctuation">,</span>
+    <span class="token operator">...</span>normalLoaders
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">const</span> <span class="token function-variable function">resolveLoader</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">pathName</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+  path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">&quot;./loader&quot;</span><span class="token punctuation">,</span> pathName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+loaders <span class="token operator">=</span> loaders<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>resolveLoader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//使用官方的</span>
+<span class="token function">runLoaders</span><span class="token punctuation">(</span>
+  <span class="token punctuation">{</span>
+    <span class="token literal-property property">resources</span><span class="token operator">:</span> filePath<span class="token punctuation">,</span>
+    loaders<span class="token punctuation">,</span>
+    <span class="token literal-property property">context</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">&quot;xxxstring&quot;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment">//传递的上下文对象</span>
+    <span class="token literal-property property">readResource</span><span class="token operator">:</span> fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>fs<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token comment">//processResource 暂时忽略</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">(</span><span class="token parameter">error<span class="token punctuation">,</span> result</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">,</span> <span class="token string">&quot;存在的错误&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span> <span class="token string">&quot;结果&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">/* 
+  result.result 是一个数组 表示本次经过所有loader处理完毕的文件内容
+  result.resourceBuffer: buffer  原始内容转化为的buffer结果
+  */</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>去对应文件夹下，执行<code>node index.js</code>。结果如下：</p> <p><img src="/assets/img/image-20220509160441807.a2779057.png" alt="image-20220509160441807"></p> <ul><li>title.js(真正的模块内容)</li></ul> <div class="language-js extra-class"><pre class="language-js"><code><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;inline1-loader!inline2-loader!./title.js&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//其他语句就不写了，为了入口文件模拟模块内容简洁一点。</span>
+</code></pre></div><ul><li>core 文件夹（实现自己的<code>runLoader</code>方法)
+<strong>核心逻辑是接收待处理的资源文件路径，根据传入的 loader,首先经过<code>pitch</code>阶段读取资源内容再经过<code>normal</code>阶段处理资源内容最终得到返回结果</strong></li></ul> <p>！源码实现！</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">//loader-runner</span>
+<span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;fs&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//1 入口</span>
+<span class="token keyword">function</span> <span class="token function">runLoaders</span><span class="token punctuation">(</span><span class="token parameter">options<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 需要处理的资源绝对路径</span>
+  <span class="token keyword">const</span> resource <span class="token operator">=</span> options<span class="token punctuation">.</span>resource <span class="token operator">||</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">;</span>
+  <span class="token comment">// 需要处理的所有loaders 组成的绝对路径数组</span>
+  <span class="token keyword">let</span> loaders <span class="token operator">=</span> options<span class="token punctuation">.</span>loaders <span class="token operator">||</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token comment">// loader执行上下文对象 每个loader中的this就会指向这个loaderContext</span>
+  <span class="token keyword">const</span> context <span class="token operator">=</span> options<span class="token punctuation">.</span>context <span class="token operator">||</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token comment">// 读取资源内容的方法</span>
+  <span class="token keyword">const</span> readResource <span class="token operator">=</span> options<span class="token punctuation">.</span>readResource <span class="token operator">||</span> fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>fs<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// 根据loaders路径数组创建loaders对象</span>
+  loaders <span class="token operator">=</span> loaders<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>createLoaderObject<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 2 loader数组转华为loader对象</span>
+<span class="token keyword">function</span> <span class="token function">createLoaderObject</span><span class="token punctuation">(</span><span class="token parameter">loader</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">normal</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token comment">//loader normal函数自身</span>
+    <span class="token literal-property property">pitch</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token comment">//</span>
+    <span class="token literal-property property">raw</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token comment">// 传过来的source是buffer还是string</span>
+    <span class="token literal-property property">data</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">pitchExecuted</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">//pitch是否执行过</span>
+    <span class="token literal-property property">normalExecuted</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">//normal是否执行过</span>
+    <span class="token literal-property property">request</span><span class="token operator">:</span> loader<span class="token punctuation">,</span> <span class="token comment">//保存当前loader资源绝对路径</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token comment">//真实源码还支持esm</span>
+  <span class="token keyword">const</span> normalLoader <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span>obj<span class="token punctuation">.</span>request<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">//赋值阶段</span>
+  obj<span class="token punctuation">.</span>normal <span class="token operator">=</span> normalLoader<span class="token punctuation">;</span>
+  obj<span class="token punctuation">.</span>pitch <span class="token operator">=</span> normalLoader<span class="token punctuation">.</span>pitch<span class="token punctuation">;</span>
+  obj<span class="token punctuation">.</span>raw <span class="token operator">=</span> normalLoader<span class="token punctuation">.</span>raw<span class="token punctuation">;</span>
+  <span class="token keyword">return</span> obj<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>3 回到 runLoader 中 赋值<code>loaderContext</code></p> <div class="language-js extra-class"><pre class="language-js"><code>loaderContext<span class="token punctuation">.</span>resourcePath <span class="token operator">=</span> resource<span class="token punctuation">;</span> <span class="token comment">//资源路径绝对地址</span>
+loaderContext<span class="token punctuation">.</span>readResource <span class="token operator">=</span> readResource<span class="token punctuation">;</span> <span class="token comment">//读取该资源的方法</span>
+loaderContext<span class="token punctuation">.</span>loaderIndex <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//执行对应的loader  idx表示还没执行过</span>
+loaderContext<span class="token punctuation">.</span>loaders <span class="token operator">=</span> loaders<span class="token punctuation">;</span> <span class="token comment">//所有的loader对象</span>
+loaderContext<span class="token punctuation">.</span>data <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token comment">//标志异步loader的对象属性</span>
+loaderContext<span class="token punctuation">.</span>async <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+loaderContext<span class="token punctuation">.</span>callback <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token comment">//request 拼接所有loader+资源路径   eg: ！inline-loader!pre-loader./title.js</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>loaderContext<span class="token punctuation">,</span> <span class="token string">&quot;request&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">enumerable</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    loaderContext<span class="token punctuation">.</span>loaders
+      <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">l</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> l<span class="token punctuation">.</span>request<span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>loaderContext<span class="token punctuation">.</span>resourcePath <span class="token operator">||</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">&quot;!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// remainingRequest</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>loaderContext<span class="token punctuation">,</span> <span class="token string">&quot;remainingRequest&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">enumerable</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">get</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> loaderContext<span class="token punctuation">.</span>loaders
+      <span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span>loaderContext<span class="token punctuation">.</span>loaderIndex <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">l</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> l<span class="token punctuation">.</span>request<span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">&quot;!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// currentRequest  （包括自身）</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>loaderContext<span class="token punctuation">,</span> <span class="token string">&quot;previousRequest&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">enumerable</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">get</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> loaderContext<span class="token punctuation">.</span>loaders
+      <span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> loaderContext<span class="token punctuation">.</span>loaderIndex<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">l</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> l<span class="token punctuation">.</span>request<span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">&quot;!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// previousRequest</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>loaderContext<span class="token punctuation">,</span> <span class="token string">&quot;previousRequest&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">enumerable</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">get</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> loaderContext<span class="token punctuation">.</span>loaders
+      <span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> loaderContext<span class="token punctuation">.</span>loaderIndex<span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">l</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> l<span class="token punctuation">.</span>request<span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">&quot;!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 上下文的data   idx到第几个就是使用第几个的data</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>loaderContext<span class="token punctuation">,</span> <span class="token string">&quot;data&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">enumerable</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">get</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span>  loaderContext<span class="token punctuation">.</span>loader<span class="token punctuation">[</span>loaderContext<span class="token punctuation">.</span>loaderIndex<span class="token punctuation">]</span><span class="token punctuation">.</span>data
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>迭代<code>pitch</code>loader</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">function</span> <span class="token function">runLoaders</span><span class="token punctuation">(</span><span class="token parameter">options<span class="token punctuation">,</span>callback</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+ <span class="token operator">...</span>
+ <span class="token comment">// 存储读取资源文件的二进制内容 （转化前原始内容）</span>
+ <span class="token keyword">const</span> processOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">resourceBuffer</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token comment">//迭代pitch</span>
+  <span class="token function">iteratePitchingLoaders</span><span class="token punctuation">(</span>processOptions<span class="token punctuation">,</span>loaderContext<span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span>result</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span>
+    <span class="token function">callback</span><span class="token punctuation">(</span>err<span class="token punctuation">,</span><span class="token punctuation">{</span>result<span class="token punctuation">,</span><span class="token literal-property property">resourceBuffer</span><span class="token operator">:</span>processOptions<span class="token punctuation">.</span>resourceBuffer<span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>迭代<code>pitch</code>的方法</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">/**
+ * 迭代pitch-loaders
+ * 核心思路: 执行第一个loader的pitch 依次迭代 如果到了最后一个结束 就开始读取文件
+ * @param {*} options processOptions对象
+ * @param {*} loaderContext loader中的this对象
+ * @param {*} callback runLoaders中的callback函数
+ */</span>
+<span class="token keyword">function</span> <span class="token function">iteratePitchingLoaders</span><span class="token punctuation">(</span><span class="token parameter">options<span class="token punctuation">,</span> loaderContext<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 超出loader个数 表示所有pitch已经结束 那么此时需要开始读取资源文件内容</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>loaderContext<span class="token punctuation">.</span>loaderIndex <span class="token operator">&gt;=</span> loaderContext<span class="token punctuation">.</span>loaders<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">processResource</span><span class="token punctuation">(</span>options<span class="token punctuation">,</span> loaderContext<span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">const</span> currentLoaderObject <span class="token operator">=</span> loaderContext<span class="token punctuation">.</span>loaders<span class="token punctuation">[</span>loaderContext<span class="token punctuation">.</span>loaderIndex<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// 当前loader的pitch已经执行过了 继续递归执行下一个</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>currentLoaderObject<span class="token punctuation">.</span>pitchExecuted<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    loaderContext<span class="token punctuation">.</span>loaderIndex<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token function">iteratePitchingLoaders</span><span class="token punctuation">(</span>options<span class="token punctuation">,</span> loaderContext<span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token keyword">const</span> pitchFunction <span class="token operator">=</span> currentLoaderObject<span class="token punctuation">.</span>pitch<span class="token punctuation">;</span>
+
+  <span class="token comment">// 标记当前loader pitch已经执行过</span>
+  currentLoaderObject<span class="token punctuation">.</span>pitchExecuted <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// 如果当前loader不存在pitch阶段</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>currentLoaderObject<span class="token punctuation">.</span>pitch<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">iteratePitchingLoaders</span><span class="token punctuation">(</span>options<span class="token punctuation">,</span> loaderContext<span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// 存在pitch阶段 并且当前pitch loader也未执行过 调用loader的pitch函数</span>
+  <span class="token function">runSyncOrAsync</span><span class="token punctuation">(</span>
+    pitchFunction<span class="token punctuation">,</span>
+    loaderContext<span class="token punctuation">,</span>
+    <span class="token punctuation">[</span>
+      currentLoaderObject<span class="token punctuation">.</span>remainingRequest<span class="token punctuation">,</span>
+      currentLoaderObject<span class="token punctuation">.</span>previousRequest<span class="token punctuation">,</span>
+      currentLoaderObject<span class="token punctuation">.</span>data<span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> <span class="token operator">...</span>args</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 存在错误直接调用callback 表示runLoaders执行完毕</span>
+        <span class="token keyword">return</span> <span class="token function">callback</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment">// 根据返回值 判断是否需要熔断 or 继续往下执行下一个pitch</span>
+      <span class="token comment">// pitch函数存在返回值 -&gt; 进行熔断 掉头执行normal-loader</span>
+      <span class="token comment">// pitch函数不存在返回值 -&gt; 继续迭代下一个 iteratePitchLoader</span>
+      <span class="token keyword">const</span> hasArg <span class="token operator">=</span> args<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">i</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> i <span class="token operator">!==</span> <span class="token keyword">undefined</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>hasArg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        loaderContext<span class="token punctuation">.</span>loaderIndex<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token comment">// 熔断 直接返回调用normal-loader</span>
+        <span class="token function">iterateNormalLoaders</span><span class="token punctuation">(</span>options<span class="token punctuation">,</span> loaderContext<span class="token punctuation">,</span> args<span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 这个pitch-loader执行完毕后 继续调用下一个loader</span>
+        <span class="token function">iteratePitchingLoaders</span><span class="token punctuation">(</span>options<span class="token punctuation">,</span> loaderContext<span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>执行<code>pitch loader</code>的方法</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">/**
+ *
+ * 执行loader 同步/异步
+ * @param {*} fn 需要被执行的函数
+ * @param {*} context loader的上下文对象
+ * @param {*} args [remainingRequest,previousRequest,currentLoaderObj.data = {}]
+ * @param {*} callback 外部传入的callback (runLoaders方法的形参)
+ */</span>
+<span class="token keyword">function</span> <span class="token function">runSyncOrAsync</span><span class="token punctuation">(</span><span class="token parameter">fn<span class="token punctuation">,</span> context<span class="token punctuation">,</span> args<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 是否同步 默认同步loader 表示当前loader执行完自动依次迭代执行</span>
+  <span class="token keyword">let</span> isSync <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  <span class="token comment">// 表示传入的fn是否已经执行过了 用来标记重复执行</span>
+  <span class="token keyword">let</span> isDone <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// 定义 this.callback</span>
+  <span class="token comment">// 同时this.async 通过闭包访问调用innerCallback 表示异步loader执行完毕</span>
+  <span class="token keyword">const</span> innerCallback <span class="token operator">=</span> <span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function-variable function">callback</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    isDone <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token comment">// 当调用this.callback时 标记不走loader函数的return了</span>
+    isSync <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token function">callback</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token operator">...</span>arguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// 定义异步 this.async</span>
+  <span class="token comment">// 每次loader调用都会执行runSyncOrAsync都会重新定义一个context.async方法</span>
+  context<span class="token punctuation">.</span><span class="token function-variable function">async</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    isSync <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token comment">// 将本次同步变更成为异步</span>
+    <span class="token keyword">return</span> innerCallback<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// 调用pitch-loader执行 将this传递成为loaderContext 同时传递三个参数</span>
+  <span class="token comment">// 返回pitch函数的返回值 甄别是否进行熔断</span>
+  <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">fn</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>isSync<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    isDone <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>result <span class="token operator">===</span> <span class="token keyword">undefined</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 如果 loader返回的是一个Promise 异步loader</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>
+      result <span class="token operator">&amp;&amp;</span>
+      <span class="token keyword">typeof</span> result <span class="token operator">===</span> <span class="token string">'object'</span> <span class="token operator">&amp;&amp;</span>
+      <span class="token keyword">typeof</span> result<span class="token punctuation">.</span>then <span class="token operator">===</span> <span class="token string">'function'</span>
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// 同样等待Promise结束后直接熔断 否则Reject 直接callback错误</span>
+      <span class="token keyword">return</span> result<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">r</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">callback</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> r<span class="token punctuation">)</span><span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 非Promise 切存在执行结果 进行熔断</span>
+    <span class="token keyword">return</span> <span class="token function">callback</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>结束遍历<code>pitch loader</code> ,执行 <code>pitch loader</code>后，读取资源文件的内容了</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">function</span> <span class="token function">processResource</span><span class="token punctuation">(</span><span class="token parameter">options<span class="token punctuation">,</span> loaderContext<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 重置越界的 loaderContext.loaderIndex</span>
+  <span class="token comment">// 达到倒叙执行 pre -&gt; normal -&gt; inline -&gt; post</span>
+  loaderContext<span class="token punctuation">.</span>loaderIndex <span class="token operator">=</span> loaderContext<span class="token punctuation">.</span>loaders<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> resource <span class="token operator">=</span> loaderContext<span class="token punctuation">.</span>resourcePath<span class="token punctuation">;</span>
+  <span class="token comment">// 读取文件内容</span>
+  loaderContext<span class="token punctuation">.</span><span class="token function">readResource</span><span class="token punctuation">(</span>resource<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> buffer</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">callback</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 保存原始文件内容的buffer 相当于processOptions.resourceBuffer = buffer</span>
+    options<span class="token punctuation">.</span>resourceBuffer <span class="token operator">=</span> buffer<span class="token punctuation">;</span>
+    <span class="token comment">// 同时将读取到的文件内容传入iterateNormalLoaders 进行迭代`normal loader`</span>
+    <span class="token function">iterateNormalLoaders</span><span class="token punctuation">(</span>options<span class="token punctuation">,</span> loaderContext<span class="token punctuation">,</span> <span class="token punctuation">[</span>buffer<span class="token punctuation">]</span><span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>边读边执行文件</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">/**
+ * 迭代normal-loaders 根据loaderIndex的值进行迭代
+ * 核心思路: 迭代完成pitch-loader之后 读取文件 迭代执行normal-loader
+ *          或者在pitch-loader中存在返回值 熔断执行normal-loader
+ * @param {*} options processOptions对象
+ * @param {*} loaderContext loader中的this对象
+ * @param {*} args [buffer/any]
+ * 当pitch阶段不存在返回值时 此时为即将处理的资源文件
+ * 当pitch阶段存在返回值时 此时为pitch阶段的返回值
+ * @param {*} callback runLoaders中的callback函数
+ */</span>
+<span class="token keyword">function</span> <span class="token function">iterateNormalLoaders</span><span class="token punctuation">(</span><span class="token parameter">options<span class="token punctuation">,</span> loaderContext<span class="token punctuation">,</span> args<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 越界元素判断 越界表示所有normal loader处理完毕 直接调用callback返回</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>loaderContext<span class="token punctuation">.</span>loaderIndex <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">callback</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">const</span> currentLoader <span class="token operator">=</span> loaderContext<span class="token punctuation">.</span>loaders<span class="token punctuation">[</span>loaderContext<span class="token punctuation">.</span>loaderIndex<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>currentLoader<span class="token punctuation">.</span>normalExecuted<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    loaderContext<span class="token punctuation">.</span>loaderIndex<span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token function">iterateNormalLoaders</span><span class="token punctuation">(</span>options<span class="token punctuation">,</span> loaderContext<span class="token punctuation">,</span> args<span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">const</span> normalFunction <span class="token operator">=</span> currentLoader<span class="token punctuation">.</span>normal<span class="token punctuation">;</span>
+  <span class="token comment">// 标记为执行过</span>
+  currentLoader<span class="token punctuation">.</span>normalExecuted <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  <span class="token comment">// 检查是否执行过</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>normalFunction<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">iterateNormalLoaders</span><span class="token punctuation">(</span>options<span class="token punctuation">,</span> loaderContext<span class="token punctuation">,</span> args<span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">// 根据loader中raw的值 格式化source</span>
+  <span class="token function">convertArgs</span><span class="token punctuation">(</span>args<span class="token punctuation">,</span> currentLoader<span class="token punctuation">.</span>raw<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// 执行loader</span>
+  <span class="token function">runSyncOrAsync</span><span class="token punctuation">(</span>normalFunction<span class="token punctuation">,</span> loaderContext<span class="token punctuation">,</span> args<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> <span class="token operator">...</span>args</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">callback</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 继续迭代 注意这里的args是处理过后的args</span>
+    <span class="token function">iterateNormalLoaders</span><span class="token punctuation">(</span>options<span class="token punctuation">,</span> loaderContext<span class="token punctuation">,</span> args<span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="总结-run-loader"><a href="#总结-run-loader" class="header-anchor">#</a> 总结 run-loader</h3> <ul><li>loader绝对路径 --&gt; loaders对象</li> <li>生成上下文对象</li> <li>遍历<code>pitch-loader</code> <code>执行 pitch-loader</code></li> <li>遍历完重置, 读取资源 <code>执行 normal-loader</code></li></ul></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/webpack/" class="prev router-link-active">
+        WebPack目录结构
+      </a></span> <span class="next"><a href="/webpack/plugin/">
+        plugin原理和实现
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.911c490e.js" defer></script><script src="/assets/js/2.570561dd.js" defer></script><script src="/assets/js/6.e0cb1ce8.js" defer></script>
+  </body>
+</html>
